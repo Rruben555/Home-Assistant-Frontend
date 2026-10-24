@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// [DEBUG] import '../repository/auth_repository.dart';
 import '../theme/app_theme.dart';
 import 'app_card.dart';
 import 'gradient_scaffold.dart';
@@ -128,36 +127,3 @@ class AuthErrorBanner extends StatelessWidget {
     );
   }
 }
-
-// [DEBUG] /// Saklar mode uji di halaman Masuk/Daftar. Diperlukan karena saklar di
-// [DEBUG] /// Profil tidak terjangkau saat belum login; tanpa ini skenario "gagal +
-// [DEBUG] /// Coba Lagi" untuk autentikasi tidak bisa dihentikan dari layar ini.
-// [DEBUG] class AuthDebugToggle extends StatefulWidget {
-  // [DEBUG] const AuthDebugToggle({super.key});
-
-  // [DEBUG] @override
-  // [DEBUG] State<AuthDebugToggle> createState() => _AuthDebugToggleState();
-// [DEBUG] }
-
-// [DEBUG] class _AuthDebugToggleState extends State<AuthDebugToggle> {
-  // [DEBUG] @override
-  // [DEBUG] Widget build(BuildContext context) {
-    // [DEBUG] final auth = AuthScope.of(context);
-    // [DEBUG] return Row(
-      // [DEBUG] children: [
-        // [DEBUG] const Icon(Icons.bug_report_outlined,
-            // [DEBUG] size: 18, color: AppColors.textMuted),
-        // [DEBUG] const SizedBox(width: 8),
-        // [DEBUG] const Expanded(
-          // [DEBUG] child: Text('Mode uji: simulasikan galat',
-              // [DEBUG] style: TextStyle(fontSize: 12, color: AppColors.textMuted)),
-        // [DEBUG] ),
-        // [DEBUG] Switch(
-          // [DEBUG] value: auth.debugSimulateError,
-          // [DEBUG] activeColor: AppColors.primaryDark,
-          // [DEBUG] onChanged: (v) => setState(() => auth.debugSimulateError = v),
-        // [DEBUG] ),
-      // [DEBUG] ],
-    // [DEBUG] );
-  // [DEBUG] }
-// [DEBUG] }

@@ -140,15 +140,6 @@ Ubah lebar jendela (Chrome/desktop): di bawah 600 px muncul bottom navigation; 6
 ### 10. AI Asisten
 Buka tab **AI**, ketuk saran cepat atau ketik pesan. **Hasil:** indikator "Sedang mengetik...", lalu balasan demo tetap. Tombol kirim dikunci selama balasan diproses.
 
-### 11. Simulasi galat + "Coba Lagi" (butuh mengaktifkan mode debug)
-Mode uji galat sudah ada di kode tetapi **dinonaktifkan lewat komentar bertanda `// [DEBUG]`**. Untuk mengaktifkannya:
-
-1. Cari semua baris yang diawali `// [DEBUG]` di:
-   `repository/task_repository.dart`, `repository/member_repository.dart`, `repository/auth_repository.dart`, `screens/profile_screen.dart`, `screens/login_screen.dart`, `screens/register_screen.dart`, `widgets/auth_layout.dart`.
-2. Hapus penanda `// [DEBUG]` (kode di sebelahnya dipertahankan). Di VS Code: *Find* `// \[DEBUG\] ` dengan regex, *Replace* kosong.
-3. Jalankan ulang. Di **Profil** muncul saklar **"Simulasikan Galat Memuat Data"** dan tombol **"Reset Data Simulasi"**; di halaman Masuk/Daftar muncul saklar galat sistem.
-4. Aktifkan saklar, lalu buka Beranda/Keluarga/Riwayat. **Hasil:** tampilan galat dengan tombol **Coba Lagi**. Matikan saklar, tekan **Coba Lagi**, data tampil.
-
 ## Struktur Projek
 
 ```

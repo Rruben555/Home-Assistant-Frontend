@@ -1,19 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../repository/auth_repository.dart';
-// [DEBUG] import '../repository/member_repository.dart';
-// [DEBUG] import '../repository/task_repository.dart';
 import '../theme/app_theme.dart';
 import '../widgets/app_card.dart';
 import '../utils/responsive.dart';
 import '../widgets/confirm_dialog.dart';
 
-/// Layar Profil & Pengaturan — persona utama aplikasi, preferensi
-/// notifikasi, pengelolaan akun (ubah profil, ganti kata sandi, hapus akun),
-/// dan keluar akun.
-///
-/// Mode uji (simulasi galat / reset data) dinonaktifkan lewat komentar
-/// bertanda `// [DEBUG]`. Hapus penanda itu untuk mengaktifkannya kembali.
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
 
@@ -26,8 +18,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // [DEBUG] final taskRepo = TaskScope.of(context);
-    // [DEBUG] final memberRepo = MemberScope.of(context);
     final authRepo = AuthScope.of(context);
     final user = authRepo.currentUser;
 
@@ -110,56 +100,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   value: _notifOn,
                   onChanged: (v) => setState(() => _notifOn = v),
                 ),
-                // [DEBUG] const Divider(height: 22, color: AppColors.divider),
-                // [DEBUG] AnimatedBuilder(
-                  // [DEBUG] animation: Listenable.merge([taskRepo, memberRepo, authRepo]),
-                  // [DEBUG] builder: (context, _) => _switchRow(
-                    // [DEBUG] icon: Icons.bug_report_outlined,
-                    // [DEBUG] title: 'Simulasikan Galat Memuat Data',
-                    // [DEBUG] subtitle: 'Mode uji: daftar, masuk, dan daftar akun akan gagal untuk menguji tombol "Coba Lagi"',
-                    // [DEBUG] value: taskRepo.debugSimulateError,
-                    // [DEBUG] onChanged: (v) => setState(() {
-                      // [DEBUG] taskRepo.debugSimulateError = v;
-                      // [DEBUG] memberRepo.debugSimulateError = v;
-                      // [DEBUG] authRepo.debugSimulateError = v;
-                    // [DEBUG] }),
-                  // [DEBUG] ),
-                // [DEBUG] ),
               ],
             ),
           ),
-          // [DEBUG] const SizedBox(height: 22),
-          // [DEBUG] _sectionTitle('Data Simulasi'),
-          // [DEBUG] AppCard(
-            // [DEBUG] child: Column(
-              // [DEBUG] crossAxisAlignment: CrossAxisAlignment.start,
-              // [DEBUG] children: [
-                // [DEBUG] const Text('Reset Data Simulasi',
-                    // [DEBUG] style: TextStyle(fontWeight: FontWeight.w700, fontSize: 13.5)),
-                // [DEBUG] const SizedBox(height: 4),
-                // [DEBUG] const Text(
-                  // [DEBUG] 'Mengembalikan seluruh aktivitas, anggota keluarga, dan riwayat '
-                  // [DEBUG] 'ke data contoh awal. Tindakan ini tidak dapat diurungkan.',
-                  // [DEBUG] style: TextStyle(fontSize: 12, color: AppColors.textMuted, height: 1.4),
-                // [DEBUG] ),
-                // [DEBUG] const SizedBox(height: 12),
-                // [DEBUG] SizedBox(
-                  // [DEBUG] width: double.infinity,
-                  // [DEBUG] child: OutlinedButton.icon(
-                    // [DEBUG] onPressed: () => _confirmReset(context, taskRepo, memberRepo),
-                    // [DEBUG] style: OutlinedButton.styleFrom(
-                      // [DEBUG] padding: const EdgeInsets.symmetric(vertical: 13),
-                      // [DEBUG] side: const BorderSide(color: AppColors.priorityHighBg),
-                      // [DEBUG] shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                    // [DEBUG] ),
-                    // [DEBUG] icon: const Icon(Icons.restore, size: 18, color: AppColors.priorityHigh),
-                    // [DEBUG] label: const Text('Reset Data Simulasi',
-                        // [DEBUG] style: TextStyle(color: AppColors.priorityHigh, fontWeight: FontWeight.w700)),
-                  // [DEBUG] ),
-                // [DEBUG] ),
-              // [DEBUG] ],
-            // [DEBUG] ),
-          // [DEBUG] ),
           const SizedBox(height: 22),
           _sectionTitle('Pengaturan Akun'),
           _menuRow(
@@ -332,22 +275,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       ..hideCurrentSnackBar()
       ..showSnackBar(const SnackBar(content: Text('Akun berhasil dihapus.')));
   }
-
-  // [DEBUG] Future<void> _confirmReset(
-      // [DEBUG] BuildContext context, TaskRepository taskRepo, MemberRepository memberRepo) async {
-    // [DEBUG] final ok = await confirmDialog(
-      // [DEBUG] context,
-      // [DEBUG] title: 'Reset data simulasi?',
-      // [DEBUG] message: 'Semua aktivitas, anggota keluarga, dan riwayat akan dikembalikan ke data contoh awal.',
-      // [DEBUG] confirmLabel: 'Reset',
-    // [DEBUG] );
-    // [DEBUG] if (!ok || !context.mounted) return;
-    // [DEBUG] taskRepo.reset();
-    // [DEBUG] memberRepo.reset();
-    // [DEBUG] ScaffoldMessenger.of(context)
-      // [DEBUG] ..hideCurrentSnackBar()
-      // [DEBUG] ..showSnackBar(const SnackBar(content: Text('Data simulasi berhasil direset.')));
-  // [DEBUG] }
 }
 
 /// Dialog hapus akun: meminta kata sandi sebagai konfirmasi.

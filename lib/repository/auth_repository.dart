@@ -41,10 +41,6 @@ class AuthRepository extends ChangeNotifier {
   AppUser? _currentUser;
   int _seq = 0;
 
-  // [DEBUG] /// Mode uji (sama seperti repository lain): bila true, register & login
-  // [DEBUG] /// gagal dengan galat sistem sehingga skenario "Coba Lagi" bisa diuji.
-  // [DEBUG] bool debugSimulateError = false;
-
   AppUser? get currentUser => _currentUser;
   bool get isLoggedIn => _currentUser != null;
 
@@ -66,9 +62,6 @@ class AuthRepository extends ChangeNotifier {
     required String password,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 700));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal mendaftarkan akun');
-    // [DEBUG] }
     if (_find(email) != null) {
       throw const AuthException('Email sudah terdaftar. Silakan masuk.');
     }
@@ -91,9 +84,6 @@ class AuthRepository extends ChangeNotifier {
     required String password,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 700));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal masuk ke akun');
-    // [DEBUG] }
     final stored = _find(email);
     if (stored == null || stored.password != password) {
       throw const AuthException('Email atau kata sandi salah.');

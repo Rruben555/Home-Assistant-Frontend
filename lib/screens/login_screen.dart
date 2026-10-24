@@ -150,22 +150,6 @@ class _LoginScreenState extends State<LoginScreen> {
               loading: _isLoading,
               onPressed: _submit,
             ),
-            //DEMO AKUN
-            // if (AppConfig.showDemoLogin) ...[
-            //   const SizedBox(height: 10),
-            //   Center(
-            //     child: TextButton(
-            //       onPressed: _fillDemo,
-            //       child: const Text(
-            //         'Isi akun demo (sarah@example.com)',
-            //         style: TextStyle(fontSize: 12.5, color: AppColors.primaryDark),
-            //       ),
-            //     ),
-            //   ),
-            // ],
-            // // [DEBUG] const Divider(height: 20, color: AppColors.divider),
-            // // [DEBUG] const AuthDebugToggle(),
-            // //DEMO AKUN
           ],
         ),
       ),
@@ -201,7 +185,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: const Text('Kembali ke formulir',
                     style: TextStyle(color: AppColors.primaryDark)),
               ),
-              // [DEBUG] const AuthDebugToggle(),
             ],
           ),
         LoadStatus.data => _buildForm(),

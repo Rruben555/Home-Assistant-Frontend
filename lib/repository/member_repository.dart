@@ -15,18 +15,11 @@ class MemberRepository extends ChangeNotifier {
   final List<FamilyMember> _members = [];
   int _seq = 0;
 
-  // [DEBUG] bool debugSimulateError = false;
-
   void _seed() {
     _members
       ..clear()
       ..addAll(DummyData.members());
   }
-
-  // [DEBUG] void reset() {
-    // [DEBUG] _seed();
-    // [DEBUG] notifyListeners();
-  // [DEBUG] }
 
   String _newId() => 'm-${DateTime.now().microsecondsSinceEpoch}-${_seq++}';
 
@@ -47,9 +40,6 @@ class MemberRepository extends ChangeNotifier {
 
   Future<List<FamilyMember>> loadMembers({bool? simulateError}) async {
     await Future<void>.delayed(const Duration(milliseconds: 700));
-    // [DEBUG] if (simulateError ?? debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal memuat anggota keluarga');
-    // [DEBUG] }
     return members;
   }
 
@@ -61,9 +51,6 @@ class MemberRepository extends ChangeNotifier {
     required bool active,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal menyimpan anggota keluarga');
-    // [DEBUG] }
     _members.add(FamilyMember(
       id: _newId(),
       name: name,
@@ -77,9 +64,6 @@ class MemberRepository extends ChangeNotifier {
 
   Future<void> updateMember(FamilyMember member) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal menyimpan perubahan anggota');
-    // [DEBUG] }
     final i = _members.indexWhere((m) => m.id == member.id);
     if (i == -1) return;
     _members[i] = member;
@@ -90,9 +74,6 @@ class MemberRepository extends ChangeNotifier {
   /// masih menunjuk ke anggota ini, agar tidak ada relasi menggantung.
   Future<void> deleteMember(String id) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal menghapus anggota keluarga');
-    // [DEBUG] }
     _members.removeWhere((m) => m.id == id);
     _taskRepository.unassignMember(id);
     notifyListeners();

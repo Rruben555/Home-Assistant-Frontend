@@ -15,9 +15,6 @@ class TaskRepository extends ChangeNotifier {
   final List<HistoryEntry> _history = [];
   int _seq = 0;
 
-  // [DEBUG] /// Diaktifkan dari layar Profil untuk mendemokan skenario gagal + retry.
-  // [DEBUG] bool debugSimulateError = false;
-
   void _seed() {
     _tasks
       ..clear()
@@ -27,19 +24,9 @@ class TaskRepository extends ChangeNotifier {
       ..addAll(DummyData.history());
   }
 
-  // [DEBUG] /// Kembalikan seluruh data ke kondisi awal (dipakai tombol "Reset Data
-  // [DEBUG] /// Simulasi" di layar Profil).
-  // [DEBUG] void reset() {
-    // [DEBUG] _seed();
-    // [DEBUG] notifyListeners();
-  // [DEBUG] }
-
   String _newId(String prefix) =>
       '$prefix-${DateTime.now().microsecondsSinceEpoch}-${_seq++}';
 
-  /// Snapshot langsung tanpa jeda — dipakai layar yang sudah pernah memuat
-  /// data agar update (tambah/ubah/hapus) langsung terlihat tanpa harus
-  /// menunggu simulasi loading lagi.
   List<HouseholdTask> get tasks => List.unmodifiable(_tasks);
 
   List<HistoryEntry> get history {
@@ -55,24 +42,13 @@ class TaskRepository extends ChangeNotifier {
     return null;
   }
 
-  // ---------------------------------------------------------------------
-  // Pemuatan simulasi (loading -> data / error), pola sesuai contoh SRS:
-  //   await Future.delayed(...); if (simulateError) throw ...; return data;
-  // ---------------------------------------------------------------------
-
   Future<List<HouseholdTask>> loadTasks({bool? simulateError}) async {
     await Future<void>.delayed(const Duration(milliseconds: 700));
-    // [DEBUG] if (simulateError ?? debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal memuat aktivitas rumah tangga');
-    // [DEBUG] }
     return tasks;
   }
 
   Future<List<HistoryEntry>> loadHistory({bool? simulateError}) async {
     await Future<void>.delayed(const Duration(milliseconds: 700));
-    // [DEBUG] if (simulateError ?? debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal memuat riwayat');
-    // [DEBUG] }
     return history;
   }
 
@@ -89,9 +65,6 @@ class TaskRepository extends ChangeNotifier {
     String? assignedMemberId,
   }) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal menyimpan aktivitas');
-    // [DEBUG] }
     _tasks.add(HouseholdTask(
       id: _newId('t'),
       title: title,
@@ -108,9 +81,6 @@ class TaskRepository extends ChangeNotifier {
 
   Future<void> updateTask(HouseholdTask task) async {
     await Future<void>.delayed(const Duration(milliseconds: 500));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal menyimpan perubahan');
-    // [DEBUG] }
     final i = _tasks.indexWhere((t) => t.id == task.id);
     if (i == -1) return;
     _tasks[i] = task;
@@ -119,23 +89,16 @@ class TaskRepository extends ChangeNotifier {
 
   Future<void> deleteTask(String id) async {
     await Future<void>.delayed(const Duration(milliseconds: 400));
-    // [DEBUG] if (debugSimulateError) {
-      // [DEBUG] throw Exception('Simulasi gagal menghapus aktivitas');
-    // [DEBUG] }
     _tasks.removeWhere((t) => t.id == id);
     notifyListeners();
   }
 
-  /// Dipakai untuk "Urungkan" setelah hapus (id lama dipertahankan, tanpa
-  /// jeda simulasi supaya undo terasa instan).
   void restore(HouseholdTask task) {
     if (findById(task.id) != null) return;
     _tasks.add(task);
     notifyListeners();
   }
 
-  /// Lepaskan penugasan ke anggota keluarga tertentu (dipanggil saat
-  /// anggota dihapus) agar tidak ada relasi ID yang menggantung.
   void unassignMember(String memberId) {
     var changed = false;
     for (var i = 0; i < _tasks.length; i++) {
