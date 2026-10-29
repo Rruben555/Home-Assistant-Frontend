@@ -1,12 +1,18 @@
 // Satu-satunya tempat yang merakit repository + controller, dan satu-satunya
 // yang boleh mengimpor implementasi di `data/` milik fitur.
+import '../../features/auth/auth.dart';
+import '../../features/auth/data/in_memory_auth_repository.dart';
 import '../../shared/session/session.dart';
 
 /// Semua objek yang hidup selama aplikasi berjalan.
 class AppDependencies {
-  const AppDependencies({required this.session});
+  const AppDependencies({
+    required this.session,
+    required this.auth,
+  });
 
   final Session session;
+  final AuthController auth;
 }
 
 class Injection {
@@ -15,6 +21,14 @@ class Injection {
   static AppDependencies build() {
     final session = Session();
 
-    return AppDependencies(session: session);
+    final authRepo = InMemoryAuthRepository();
+
+    return AppDependencies(
+      session: session,
+      auth: AuthController(
+        repository: authRepo,
+        session: session,
+      ),
+    );
   }
 }

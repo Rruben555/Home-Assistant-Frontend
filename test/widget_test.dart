@@ -14,9 +14,24 @@ import 'package:home_assistant_frontend/app/di/injection.dart';
 void main() {
   Widget buildApp() => HouseChoreApp(dependencies: Injection.build());
 
-  testWidgets('Aplikasi dibuka di Beranda', (tester) async {
+  testWidgets('Aplikasi dibuka di layar Masuk', (tester) async {
     await tester.pumpWidget(buildApp());
 
-    expect(find.text('Beranda'), findsOneWidget);
+    expect(find.text('Masuk'), findsWidgets); // judul + tombol
+    expect(find.text('Belum punya akun? '), findsOneWidget);
+    expect(find.text('Daftar'), findsOneWidget);
+  });
+
+  testWidgets('Login', (tester) async {
+    await tester.pumpWidget(buildApp());
+
+    final fields = find.byType(TextField);
+    await tester.enterText(fields.at(0), 'ven@example.com');
+    await tester.enterText(fields.at(1), 'ven12345');
+
+    await tester.tap(find.widgetWithText(ElevatedButton, 'Masuk'));
+    await tester.pumpAndSettle(); // melewati jeda simulasi repository
+
+    expect(find.text('Lanjut ke Beranda'), findsOneWidget); // layar keluarga sementara
   });
 }

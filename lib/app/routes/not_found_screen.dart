@@ -17,7 +17,8 @@ class NotFoundScreen extends StatelessWidget {
     if (Navigator.canPop(context)) {
       Navigator.pop(context);
     } else {
-      Navigator.pushNamedAndRemoveUntil(context, AppRoutes.main, (_) => false);
+      Navigator.pushNamedAndRemoveUntil(
+          context, session.isLoggedIn ? AppRoutes.main : AppRoutes.signIn, (_) => false);
     }
   }
 

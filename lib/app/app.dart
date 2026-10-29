@@ -15,7 +15,7 @@ class HouseChoreApp extends StatelessWidget {
         title: AppConfig.appName,
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light,
-        initialRoute: AppRoutes.main,
+        initialRoute: AppRoutes.signIn,
         onGenerateRoute: _router.onGenerateRoute,
         // Layar lebar (768 / 1280 px): konten dibatasi 560 px dan diletakkan di tengah.
         builder: (context, child) => ColoredBox(
