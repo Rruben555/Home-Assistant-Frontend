@@ -5,5 +5,6 @@ library;
 export 'domain/app_user.dart';
 export 'domain/auth_repository.dart';
 export 'presentation/controllers/auth_controller.dart';
+export 'presentation/screens/universal/register_screen.dart';
 export 'presentation/screens/universal/sign_in_screen.dart';
 export 'presentation/widgets/confirm_logout.dart';

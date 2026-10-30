@@ -53,7 +53,7 @@ class AppRouter {
       case AppRoutes.signIn:
         return _page(settings, SignInScreen(auth: _d.auth));
       case AppRoutes.register:
-        return _page(settings, _notFound('Pendaftaran akun belum tersedia.'));
+        return _page(settings, RegisterScreen(auth: _d.auth));
       case AppRoutes.family:
         return _page(settings, _familyPlaceholder());
       case AppRoutes.main:
