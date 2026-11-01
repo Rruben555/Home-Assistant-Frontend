@@ -58,6 +58,8 @@ class AppRouter {
         return _page(settings, _familyPlaceholder());
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
+      case AppRoutes.memberProfile:
+        return _page(settings, _notFound('Profil anggota belum tersedia.'));
       default:
         return _page(settings, _notFound());
     }

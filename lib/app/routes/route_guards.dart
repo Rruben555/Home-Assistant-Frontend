@@ -16,6 +16,7 @@ class RouteGuards {
   static const _protected = {
     AppRoutes.family,
     AppRoutes.main,
+    AppRoutes.memberProfile,
   };
 
   RouteGuardResult check(String name) {

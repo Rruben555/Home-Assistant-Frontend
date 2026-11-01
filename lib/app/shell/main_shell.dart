@@ -1,24 +1,59 @@
 import 'package:flutter/material.dart';
+import '../theme/app_theme.dart';
 import '../../cores/ui/app_scaffold.dart';
 import '../../cores/ui/empty_state.dart';
 import '../../features/auth/auth.dart';
+import '../../features/members/members.dart';
 import '../di/injection.dart';
 
-/// Kerangka layar utama. Tahap ini baru berisi Beranda sementara dengan tombol keluar;
-/// tab lain ditambahkan bersama fitur masing-masing.
-class MainShell extends StatelessWidget {
+/// Kerangka tab Beranda / Anggota.
+/// Tab Beranda dan Anggota berbeda untuk admin dan anggota biasa.
+class MainShell extends StatefulWidget {
   const MainShell({super.key, required this.dependencies});
   final AppDependencies dependencies;
+  @override
+  State<MainShell> createState() => _MainShellState();
+}
+
+class _MainShellState extends State<MainShell> {
+  int _index = 0;
+
+  NavigationDestination _dest(IconData icon, IconData active, String label) => NavigationDestination(
+        icon: Icon(icon, color: AppColors.textMuted),
+        selectedIcon: Icon(active, color: AppColors.primary),
+        label: label,
+      );
 
   @override
-  Widget build(BuildContext context) => AppScaffold(
-        showAppBar: false,
-        body: EmptyState(
-          icon: Icons.home_outlined,
-          title: 'Beranda',
-          message: 'Fondasi aplikasi sudah berjalan. Fitur ditambahkan bertahap.',
-          actionLabel: 'Keluar',
-          onAction: () => confirmAndLogout(context, dependencies.auth),
-        ),
+  Widget build(BuildContext context) => ListenableBuilder(
+        listenable: widget.dependencies.members,
+        builder: (context, _) => _scaffold(),
       );
+
+  Widget _scaffold() {
+    final d = widget.dependencies;
+    final admin = d.session.isAdmin;
+    final tabs = <Widget>[
+      EmptyState(
+        icon: Icons.home_outlined,
+        title: 'Beranda',
+        message: 'Daftar chore akan hadir di tahap berikutnya.',
+        actionLabel: 'Keluar',
+        onAction: () => confirmAndLogout(context, d.auth),
+      ),
+      admin ? AdminMembersScreen(members: d.members) : MemberMembersScreen(members: d.members),
+    ];
+    return AppScaffold(
+      showAppBar: false,
+      body: IndexedStack(index: _index, children: tabs),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _index,
+        onDestinationSelected: (i) => setState(() => _index = i),
+        destinations: [
+          _dest(Icons.home_outlined, Icons.home, 'Beranda'),
+          _dest(Icons.group_outlined, Icons.group, 'Anggota'),
+        ],
+      ),
+    );
+  }
 }

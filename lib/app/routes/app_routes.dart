@@ -5,4 +5,5 @@ class AppRoutes {
   static const register = '/register';
   static const family = '/family'; // layar pertama setelah masuk (daftar / pilih keluarga)
   static const main = '/main';
+  static const memberProfile = '/member/profile'; // arguments: String memberId
 }

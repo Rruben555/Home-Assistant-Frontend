@@ -31,7 +31,9 @@ void main() {
 
     await tester.tap(find.widgetWithText(ElevatedButton, 'Masuk'));
     await tester.pumpAndSettle(); // melewati jeda simulasi repository
+    await tester.tap(find.text('Lanjut ke Beranda')); // layar keluarga sementara
+    await tester.pumpAndSettle();
 
-    expect(find.text('Lanjut ke Beranda'), findsOneWidget); // layar keluarga sementara
+    expect(find.text('Anggota'), findsOneWidget); // label tab
   });
 }
