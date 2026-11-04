@@ -8,3 +8,4 @@ export 'domain/member_repository.dart';
 export 'presentation/controllers/members_controller.dart';
 export 'presentation/screens/admin/admin_members_screen.dart';
 export 'presentation/screens/member/member_members_screen.dart';
+export 'presentation/screens/universal/member_profile_screen.dart';

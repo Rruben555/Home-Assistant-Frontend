@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../cores/ui/app_scaffold.dart';
 import '../../cores/ui/empty_state.dart';
 import '../../features/auth/auth.dart';
+import '../../features/members/members.dart';
 import '../di/injection.dart';
 import '../shell/main_shell.dart';
 import 'app_routes.dart';
@@ -41,6 +42,7 @@ class AppRouter {
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final name = settings.name ?? '';
+    final args = settings.arguments;
 
     switch (_guards.check(name)) {
       case RouteGuardResult.requireSignIn:
@@ -59,7 +61,16 @@ class AppRouter {
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
       case AppRoutes.memberProfile:
-        return _page(settings, _notFound('Profil anggota belum tersedia.'));
+        if (args is! String || args.isEmpty) {
+          return _page(settings, _notFound('ID anggota tidak valid.'));
+        }
+        return _page(
+            settings,
+            MemberProfileScreen(
+              memberId: args,
+              members: _d.members,
+              familyName: '-',
+            ));
       default:
         return _page(settings, _notFound());
     }
