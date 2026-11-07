@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../cores/ui/app_scaffold.dart';
-import '../../cores/ui/empty_state.dart';
 import '../../features/auth/auth.dart';
+import '../../features/family/family.dart';
 import '../../features/members/members.dart';
 import '../di/injection.dart';
 import '../shell/main_shell.dart';
@@ -23,22 +22,8 @@ class AppRouter {
       ? NotFoundScreen(session: _d.session)
       : NotFoundScreen(session: _d.session, message: message);
 
-  /// Sementara: layar keluarga belum dibuat, jadi langsung pakai keluarga contoh (f1).
-  Widget _familyPlaceholder() => Builder(
-        builder: (context) => AppScaffold(
-          showAppBar: false,
-          body: EmptyState(
-            icon: Icons.home_work_outlined,
-            title: 'Keluarga',
-            message: 'Pemilihan keluarga belum tersedia. Lanjutkan dengan keluarga contoh.',
-            actionLabel: 'Lanjut ke Beranda',
-            onAction: () {
-              _d.session.selectFamily('f1');
-              Navigator.pushNamedAndRemoveUntil(context, AppRoutes.main, (_) => false);
-            },
-          ),
-        ),
-      );
+  /// Layar keluarga: daftar keluarga milik akun (kosong -> tawaran membuat keluarga).
+  Widget _familyEntry() => FamilyListScreen(auth: _d.auth, family: _d.family);
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final name = settings.name ?? '';
@@ -47,6 +32,8 @@ class AppRouter {
     switch (_guards.check(name)) {
       case RouteGuardResult.requireSignIn:
         return _page(const RouteSettings(name: AppRoutes.signIn), SignInScreen(auth: _d.auth));
+      case RouteGuardResult.requireFamily:
+        return _page(const RouteSettings(name: AppRoutes.family), _familyEntry());
       case RouteGuardResult.allow:
         break;
     }
@@ -57,7 +44,9 @@ class AppRouter {
       case AppRoutes.register:
         return _page(settings, RegisterScreen(auth: _d.auth));
       case AppRoutes.family:
-        return _page(settings, _familyPlaceholder());
+        return _page(settings, _familyEntry());
+      case AppRoutes.familyChoice:
+        return _page(settings, _notFound('Layar buat atau gabung keluarga belum tersedia.'));
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
       case AppRoutes.memberProfile:
@@ -69,7 +58,7 @@ class AppRouter {
             MemberProfileScreen(
               memberId: args,
               members: _d.members,
-              familyName: '-',
+              familyName: _d.family.current?.name ?? '-',
             ));
       default:
         return _page(settings, _notFound());

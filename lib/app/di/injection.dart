@@ -2,6 +2,8 @@
 // yang boleh mengimpor implementasi di `data/` milik fitur.
 import '../../features/auth/auth.dart';
 import '../../features/auth/data/in_memory_auth_repository.dart';
+import '../../features/family/data/in_memory_family_repository.dart';
+import '../../features/family/family.dart';
 import '../../features/members/data/in_memory_member_repository.dart';
 import '../../features/members/members.dart';
 import '../../shared/session/session.dart';
@@ -11,11 +13,13 @@ class AppDependencies {
   const AppDependencies({
     required this.session,
     required this.auth,
+    required this.family,
     required this.members,
   });
 
   final Session session;
   final AuthController auth;
+  final FamilyController family;
   final MembersController members;
 }
 
@@ -30,6 +34,7 @@ class Injection {
       session: session,
       pendingChoreCount: (_) => 0,
     );
+    final familyRepo = InMemoryFamilyRepository(members: memberRepo);
     final authRepo = InMemoryAuthRepository();
 
     // Anggota saat ini pada Session dihitung dari data members.
@@ -45,6 +50,7 @@ class Injection {
         session: session,
         onUserNameChanged: memberRepo.syncUserName,
       ),
+      family: FamilyController(repository: familyRepo, members: memberRepo, session: session),
       members: MembersController(repository: memberRepo, session: session),
     );
   }

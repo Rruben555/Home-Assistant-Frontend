@@ -31,9 +31,8 @@ void main() {
 
     await tester.tap(find.widgetWithText(ElevatedButton, 'Masuk'));
     await tester.pumpAndSettle(); // melewati jeda simulasi repository
-    await tester.tap(find.text('Lanjut ke Beranda')); // layar keluarga sementara
-    await tester.pumpAndSettle();
 
-    expect(find.text('Anggota'), findsOneWidget); // label tab
+    expect(find.text('Keluarga Ven'), findsOneWidget);
+    expect(find.text('Rumah Kos Melati'), findsOneWidget);
   });
 }
