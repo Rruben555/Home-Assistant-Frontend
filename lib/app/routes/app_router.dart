@@ -22,8 +22,9 @@ class AppRouter {
       ? NotFoundScreen(session: _d.session)
       : NotFoundScreen(session: _d.session, message: message);
 
-  /// Layar keluarga: daftar keluarga milik akun (kosong -> tawaran membuat keluarga).
-  Widget _familyEntry() => FamilyListScreen(auth: _d.auth, family: _d.family);
+  /// Belum punya keluarga -> layar Belum ada keluarga; sudah punya -> daftar keluarga.
+  Widget _familyEntry() =>
+      _d.family.hasFamilies ? FamilyListScreen(auth: _d.auth, family: _d.family) : FamilyChoiceScreen(family: _d.family);
 
   Route<dynamic> onGenerateRoute(RouteSettings settings) {
     final name = settings.name ?? '';
@@ -46,7 +47,7 @@ class AppRouter {
       case AppRoutes.family:
         return _page(settings, _familyEntry());
       case AppRoutes.familyChoice:
-        return _page(settings, _notFound('Layar buat atau gabung keluarga belum tersedia.'));
+        return _page(settings, FamilyChoiceScreen(family: _d.family));
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
       case AppRoutes.memberProfile:
