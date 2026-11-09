@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../../cores/ui/app_scaffold.dart';
-import '../../cores/ui/empty_state.dart';
-import '../../features/auth/auth.dart';
+import '../../features/chores/chores.dart';
 import '../../features/members/members.dart';
 import '../di/injection.dart';
 
@@ -34,13 +33,9 @@ class _MainShellState extends State<MainShell> {
     final d = widget.dependencies;
     final admin = d.session.isAdmin;
     final tabs = <Widget>[
-      EmptyState(
-        icon: Icons.home_outlined,
-        title: 'Beranda',
-        message: 'Daftar chore akan hadir di tahap berikutnya.',
-        actionLabel: 'Keluar',
-        onAction: () => confirmAndLogout(context, d.auth),
-      ),
+      admin
+          ? AdminHomeScreen(chores: d.chores, members: d.members, family: d.family)
+          : MemberHomeScreen(chores: d.chores, members: d.members, family: d.family),
       admin ? AdminMembersScreen(members: d.members) : MemberMembersScreen(members: d.members),
     ];
     return AppScaffold(

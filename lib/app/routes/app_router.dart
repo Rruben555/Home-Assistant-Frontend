@@ -50,6 +50,10 @@ class AppRouter {
         return _page(settings, FamilyChoiceScreen(family: _d.family));
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
+      case AppRoutes.choreDetail:
+        return _page(settings, _notFound('Detail chore belum tersedia.'));
+      case AppRoutes.choreForm:
+        return _page(settings, _notFound('Form chore belum tersedia.'));
       case AppRoutes.memberProfile:
         if (args is! String || args.isEmpty) {
           return _page(settings, _notFound('ID anggota tidak valid.'));

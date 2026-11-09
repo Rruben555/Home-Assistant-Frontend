@@ -2,6 +2,8 @@
 // yang boleh mengimpor implementasi di `data/` milik fitur.
 import '../../features/auth/auth.dart';
 import '../../features/auth/data/in_memory_auth_repository.dart';
+import '../../features/chores/chores.dart';
+import '../../features/chores/data/in_memory_chore_repository.dart';
 import '../../features/family/data/in_memory_family_repository.dart';
 import '../../features/family/family.dart';
 import '../../features/members/data/in_memory_member_repository.dart';
@@ -15,12 +17,14 @@ class AppDependencies {
     required this.auth,
     required this.family,
     required this.members,
+    required this.chores,
   });
 
   final Session session;
   final AuthController auth;
   final FamilyController family;
   final MembersController members;
+  final ChoresController chores;
 }
 
 class Injection {
@@ -29,11 +33,13 @@ class Injection {
   static AppDependencies build() {
     final session = Session();
 
-    // Jumlah chore aktif baru tersedia setelah fitur chores ada; sementara selalu 0.
+    // Members butuh jumlah chore aktif, chores butuh members: hubungkan dengan penutup.
+    late final ChoreRepository choreRepo;
     final memberRepo = InMemoryMemberRepository(
       session: session,
-      pendingChoreCount: (_) => 0,
+      pendingChoreCount: (memberId) => choreRepo.pendingCountFor(memberId),
     );
+    choreRepo = InMemoryChoreRepository(session: session, members: memberRepo);
     final familyRepo = InMemoryFamilyRepository(members: memberRepo);
     final authRepo = InMemoryAuthRepository();
 
@@ -52,6 +58,7 @@ class Injection {
       ),
       family: FamilyController(repository: familyRepo, members: memberRepo, session: session),
       members: MembersController(repository: memberRepo, session: session),
+      chores: ChoresController(repository: choreRepo, members: memberRepo, session: session),
     );
   }
 }

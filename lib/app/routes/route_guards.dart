@@ -20,6 +20,8 @@ class RouteGuards {
     AppRoutes.family,
     AppRoutes.familyChoice,
     AppRoutes.main,
+    AppRoutes.choreDetail,
+    AppRoutes.choreForm,
     AppRoutes.memberProfile,
   };
 

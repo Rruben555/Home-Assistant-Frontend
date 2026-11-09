@@ -6,5 +6,7 @@ class AppRoutes {
   static const family = '/family'; // layar pertama setelah masuk (daftar / pilih keluarga)
   static const familyChoice = '/family/choice'; // buat atau gabung keluarga
   static const main = '/main';
+  static const choreDetail = '/chore/detail'; // arguments: String choreId
+  static const choreForm = '/chore/form'; // admin saja. arguments: String? choreId (null = buat baru)
   static const memberProfile = '/member/profile'; // arguments: String memberId
 }
