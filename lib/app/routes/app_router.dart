@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../features/auth/auth.dart';
+import '../../features/chores/chores.dart';
 import '../../features/family/family.dart';
 import '../../features/members/members.dart';
 import '../di/injection.dart';
@@ -51,7 +52,14 @@ class AppRouter {
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
       case AppRoutes.choreDetail:
-        return _page(settings, _notFound('Detail chore belum tersedia.'));
+        if (args is! String || args.isEmpty) {
+          return _page(settings, _notFound('ID chore tidak valid.'));
+        }
+        return _page(
+            settings,
+            _d.session.isAdmin
+                ? AdminChoreDetailScreen(choreId: args, chores: _d.chores, members: _d.members)
+                : MemberChoreDetailScreen(choreId: args, chores: _d.chores, members: _d.members));
       case AppRoutes.choreForm:
         return _page(settings, _notFound('Form chore belum tersedia.'));
       case AppRoutes.memberProfile:
