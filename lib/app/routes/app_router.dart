@@ -36,6 +36,8 @@ class AppRouter {
         return _page(const RouteSettings(name: AppRoutes.signIn), SignInScreen(auth: _d.auth));
       case RouteGuardResult.requireFamily:
         return _page(const RouteSettings(name: AppRoutes.family), _familyEntry());
+      case RouteGuardResult.adminOnly:
+        return _page(settings, _notFound('Hanya admin yang dapat membuka halaman ini.'));
       case RouteGuardResult.allow:
         break;
     }
@@ -61,7 +63,10 @@ class AppRouter {
                 ? AdminChoreDetailScreen(choreId: args, chores: _d.chores, members: _d.members)
                 : MemberChoreDetailScreen(choreId: args, chores: _d.chores, members: _d.members));
       case AppRoutes.choreForm:
-        return _page(settings, _notFound('Form chore belum tersedia.'));
+        if (args != null && (args is! String || args.isEmpty)) {
+          return _page(settings, _notFound('ID chore tidak valid.'));
+        }
+        return _page(settings, ChoreFormScreen(choreId: args as String?, chores: _d.chores, members: _d.members));
       case AppRoutes.memberProfile:
         if (args is! String || args.isEmpty) {
           return _page(settings, _notFound('ID anggota tidak valid.'));
