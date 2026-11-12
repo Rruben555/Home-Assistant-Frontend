@@ -5,7 +5,7 @@ import '../../features/chores/chores.dart';
 import '../../features/members/members.dart';
 import '../di/injection.dart';
 
-/// Kerangka tab Beranda / Anggota.
+/// Kerangka tab Beranda / Riwayat / Anggota.
 /// Tab Beranda dan Anggota berbeda untuk admin dan anggota biasa.
 class MainShell extends StatefulWidget {
   const MainShell({super.key, required this.dependencies});
@@ -36,6 +36,7 @@ class _MainShellState extends State<MainShell> {
       admin
           ? AdminHomeScreen(chores: d.chores, members: d.members, family: d.family)
           : MemberHomeScreen(chores: d.chores, members: d.members, family: d.family),
+      HistoryScreen(chores: d.chores, members: d.members),
       admin ? AdminMembersScreen(members: d.members) : MemberMembersScreen(members: d.members),
     ];
     return AppScaffold(
@@ -46,6 +47,7 @@ class _MainShellState extends State<MainShell> {
         onDestinationSelected: (i) => setState(() => _index = i),
         destinations: [
           _dest(Icons.home_outlined, Icons.home, 'Beranda'),
+          _dest(Icons.history, Icons.history, 'Riwayat'),
           _dest(Icons.group_outlined, Icons.group, 'Anggota'),
         ],
       ),

@@ -10,3 +10,4 @@ export 'presentation/screens/admin/admin_home_screen.dart';
 export 'presentation/screens/admin/chore_form_screen.dart';
 export 'presentation/screens/member/member_chore_detail_screen.dart';
 export 'presentation/screens/member/member_home_screen.dart';
+export 'presentation/screens/universal/history_screen.dart';
