@@ -2,6 +2,8 @@
 // yang boleh mengimpor implementasi di `data/` milik fitur.
 import '../../features/auth/auth.dart';
 import '../../features/auth/data/in_memory_auth_repository.dart';
+import '../../features/chatbot/chatbot.dart';
+import '../../features/chatbot/data/rule_based_chatbot_repository.dart';
 import '../../features/chores/chores.dart';
 import '../../features/chores/data/in_memory_chore_repository.dart';
 import '../../features/family/data/in_memory_family_repository.dart';
@@ -18,6 +20,7 @@ class AppDependencies {
     required this.family,
     required this.members,
     required this.chores,
+    required this.chatbot,
   });
 
   final Session session;
@@ -25,6 +28,7 @@ class AppDependencies {
   final FamilyController family;
   final MembersController members;
   final ChoresController chores;
+  final ChatbotController chatbot;
 }
 
 class Injection {
@@ -42,6 +46,7 @@ class Injection {
     choreRepo = InMemoryChoreRepository(session: session, members: memberRepo);
     final familyRepo = InMemoryFamilyRepository(members: memberRepo);
     final authRepo = InMemoryAuthRepository();
+    final chatbotRepo = RuleBasedChatbotRepository(chores: choreRepo);
 
     // Anggota saat ini pada Session dihitung dari data members.
     session.bindMemberResolver((userId, familyId) {
@@ -59,6 +64,7 @@ class Injection {
       family: FamilyController(repository: familyRepo, members: memberRepo, session: session),
       members: MembersController(repository: memberRepo, session: session),
       chores: ChoresController(repository: choreRepo, members: memberRepo, session: session),
+      chatbot: ChatbotController(repository: chatbotRepo, session: session),
     );
   }
 }
