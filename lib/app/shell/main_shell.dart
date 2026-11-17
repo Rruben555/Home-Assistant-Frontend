@@ -4,9 +4,10 @@ import '../../cores/ui/app_scaffold.dart';
 import '../../features/chatbot/chatbot.dart';
 import '../../features/chores/chores.dart';
 import '../../features/members/members.dart';
+import '../../features/profile/profile.dart';
 import '../di/injection.dart';
 
-/// Kerangka tab Beranda / Riwayat / Chatbot / Anggota.
+/// Kerangka tab Beranda / Riwayat / Chatbot / Anggota / Profil.
 /// Tab Beranda dan Anggota berbeda untuk admin dan anggota biasa.
 class MainShell extends StatefulWidget {
   const MainShell({super.key, required this.dependencies});
@@ -40,6 +41,7 @@ class _MainShellState extends State<MainShell> {
       HistoryScreen(chores: d.chores, members: d.members),
       ChatbotScreen(chatbot: d.chatbot),
       admin ? AdminMembersScreen(members: d.members) : MemberMembersScreen(members: d.members),
+      ProfileScreen(auth: d.auth, members: d.members, family: d.family),
     ];
     return AppScaffold(
       showAppBar: false,
@@ -52,6 +54,7 @@ class _MainShellState extends State<MainShell> {
           _dest(Icons.history, Icons.history, 'Riwayat'),
           _dest(Icons.chat_bubble_outline, Icons.chat_bubble, 'Chatbot'),
           _dest(Icons.group_outlined, Icons.group, 'Anggota'),
+          _dest(Icons.person_outline, Icons.person, 'Profil'),
         ],
       ),
     );

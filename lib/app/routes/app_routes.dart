@@ -9,4 +9,5 @@ class AppRoutes {
   static const choreDetail = '/chore/detail'; // arguments: String choreId
   static const choreForm = '/chore/form'; // admin saja. arguments: String? choreId (null = buat baru)
   static const memberProfile = '/member/profile'; // arguments: String memberId
+  static const editProfile = '/profile/edit'; // ubah nama + password sendiri
 }

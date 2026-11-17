@@ -26,6 +26,7 @@ class RouteGuards {
     AppRoutes.choreDetail,
     AppRoutes.choreForm,
     AppRoutes.memberProfile,
+    AppRoutes.editProfile,
   };
   static const _adminOnly = {AppRoutes.choreForm};
 

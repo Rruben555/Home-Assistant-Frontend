@@ -53,6 +53,8 @@ class AppRouter {
         return _page(settings, FamilyChoiceScreen(family: _d.family));
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
+      case AppRoutes.editProfile:
+        return _page(settings, _notFound('Layar ubah profil belum tersedia.'));
       case AppRoutes.choreDetail:
         if (args is! String || args.isEmpty) {
           return _page(settings, _notFound('ID chore tidak valid.'));
