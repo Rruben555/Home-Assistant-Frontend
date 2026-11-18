@@ -3,6 +3,7 @@ import '../../features/auth/auth.dart';
 import '../../features/chores/chores.dart';
 import '../../features/family/family.dart';
 import '../../features/members/members.dart';
+import '../../features/profile/profile.dart';
 import '../di/injection.dart';
 import '../shell/main_shell.dart';
 import 'app_routes.dart';
@@ -54,7 +55,7 @@ class AppRouter {
       case AppRoutes.main:
         return _page(settings, MainShell(dependencies: _d));
       case AppRoutes.editProfile:
-        return _page(settings, _notFound('Layar ubah profil belum tersedia.'));
+        return _page(settings, EditProfileScreen(auth: _d.auth));
       case AppRoutes.choreDetail:
         if (args is! String || args.isEmpty) {
           return _page(settings, _notFound('ID chore tidak valid.'));
